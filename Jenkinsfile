@@ -29,7 +29,22 @@ pipeline{
             }
         }
         }
-     
+     stage('Deploy to artifactory'){
+        steps{
+        rtUpload(
+         serverId : 'jfrog-server',
+         spec :'''{
+           "files" :[
+           {
+           "pattern":"target/*.jar",
+           "target":"art-mav-dev-2022"
+           }
+           ]
+         }''',
+         
+      )
+      }
+     }
     }
     post {  
          always {  
@@ -37,7 +52,7 @@ pipeline{
          }  
          success {   
             echo "========Deploying executed successfully========"
-            emailext attachLog: true, body: "<b>Example</b><br>Project: ${env.JOB_NAME}", from: 'mukeshkousalya2k17@gmail.com',compressLog: true, mimeType: 'text/html', replyTo: '', subject: "Deploy Successfull Project ${env.JOB_NAME}", to: "mukeshkousalya2k17@gmail.com;ramji013@gmail.com";
+            emailext attachLog: true, body: "<b>Example</b><br>Project: ${env.JOB_NAME}", from: 'mros47567@gmail.com',compressLog: true, mimeType: 'text/html', replyTo: '', subject: "Deploy Successfull Project ${env.JOB_NAME}", to: "mros47567@gmail.com;ramji013@gmail.com";
          }  
          failure {  
              mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> Stage Name: $last_started <br> URL de build: ${env.BUILD_URL}", cc: 'ramji013@gmail.com', charset: 'UTF-8', from: 'mukeshkousalya2k17@gmail.com', mimeType: 'text/html', replyTo: '', subject: "Deployment failed for Project -> ${env.JOB_NAME}", to: "mukeshkousalya2k17@gmail.com";  
