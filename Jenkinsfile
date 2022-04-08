@@ -37,7 +37,7 @@ pipeline{
            "files" :[
            {
            "pattern":"target/*.jar",
-           "target":"art-mav-dev-2022"
+           "target":"pipeline-08"
            }
            ]
          }''',
